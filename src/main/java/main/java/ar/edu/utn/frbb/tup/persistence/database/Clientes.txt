@@ -1,0 +1,3 @@
+id,nombre,apellido,dni,fechaNacimiento,tipoPersona,banco,fechaAlta
+114145678,matias,napoli,114145678,1990-05-15,PERSONA_FISICA,Banco Ejemplo,2021-05-15
+12345679,juan,martinez,12345679,2000-05-15,PERSONA_FISICA,Banco Ejemplo,2022-05-10

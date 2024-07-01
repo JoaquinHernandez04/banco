@@ -1,13 +1,12 @@
-package ar.edu.utn.frbb.tup.service.operaciones.ManejoClientes;
+package main.java.ar.edu.utn.frbb.tup.service.operaciones.ManejoClientes;
 
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Scanner;
 
 public class MostrarCliente {
 
-    private static final String NOMBRE_ARCHIVO = "C:\\Users\\joaqu\\Desktop\\Lab-lll\\tup2024-master\\src\\main\\java\\ar\\edu\\utn\\frbb\\tup\\persistence\\DataBase\\Clientes.txt";
+    private static final String NOMBRE_ARCHIVO = "C:\\Users\\joaqu\\Desktop\\banco\\src\\main\\java\\main\\java\\ar\\edu\\utn\\frbb\\tup\\persistence\\database\\Clientes.txt";
 
     public static void mostrarCliente(String dni) {
         List<String> clientes = new ArrayList<>();

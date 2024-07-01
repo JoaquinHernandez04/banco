@@ -6,7 +6,9 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import main.java.ar.edu.utn.frbb.tup.service.operaciones.modulos.*;
+import org.springframework.stereotype.Repository;
 
+@Repository
 public class SummitMovimientos {
     private static final String NOMBRE_ARCHIVO = "C:\\Users\\joaqu\\Desktop\\Lab-lll\\tup2024-master\\src\\main\\java\\ar\\edu\\utn\\frbb\\tup\\persistence\\DataBase\\Cuentas.txt";
     private static final String NOMBRE_ARCHIVO2 = "C:\\Users\\joaqu\\Desktop\\Lab-lll\\tup2024-master\\src\\main\\java\\ar\\edu\\utn\\frbb\\tup\\persistence\\DataBase\\Movimientos.txt";

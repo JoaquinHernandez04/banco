@@ -1,4 +1,4 @@
-package ar.edu.utn.frbb.tup.service.operaciones.modulos;
+package main.java.ar.edu.utn.frbb.tup.service.operaciones.modulos;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -9,8 +9,7 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
-import ar.edu.utn.frbb.tup.persistence.SummitMovimientos;
-
+import main.java.ar.edu.utn.frbb.tup.persistence.SummitMovimientos;
 public class Transferencia {
     private static final String TIPO_MOVIMIENTO = "TRANSFERENCIA";
     private static final String NOMBRE_ARCHIVO = "C:\\Users\\joaqu\\Desktop\\Lab-lll\\tup2024-master\\src\\main\\java\\ar\\edu\\utn\\frbb\\tup\\persistence\\DataBase\\Cuentas.txt";

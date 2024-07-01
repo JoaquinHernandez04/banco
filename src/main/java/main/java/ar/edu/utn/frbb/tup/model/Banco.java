@@ -1,4 +1,4 @@
-package ar.edu.utn.frbb.tup.model;
+package main.java.ar.edu.utn.frbb.tup.model;
 
 import java.util.ArrayList;
 import java.util.List;

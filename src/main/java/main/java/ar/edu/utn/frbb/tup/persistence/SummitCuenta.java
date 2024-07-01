@@ -7,12 +7,15 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.time.format.DateTimeFormatter;
+import org.springframework.stereotype.Repository;
 
 import main.java.ar.edu.utn.frbb.tup.model.*;
 
+@Repository
+
 public class SummitCuenta {
     private static final String NOMBRE_ARCHIVO = "C:\\Users\\joaqu\\Desktop\\Lab-lll\\tup2024-master\\src\\main\\java\\ar\\edu\\utn\\frbb\\tup\\persistence\\DataBase\\Cuentas.txt"; //cambiar aca 
-    private static final String NOMBRE_ARCHIVO1 = "C:\\Users\\joaqu\\Desktop\\Lab-lll\\tup2024-master\\src\\main\\java\\ar\\edu\\utn\\frbb\\tup\\persistence\\DataBase\\Clientes.txt"; //cambiar aca 
+    private static final String NOMBRE_ARCHIVO1 = "C:\\Users\\joaqu\\Desktop\\banco\\src\\main\\java\\main\\java\\ar\\edu\\utn\\frbb\\tup\\persistence\\database\\Clientes.txt"; // cambiar
 
     public static void escribirEnArchivo(Cuenta cuenta) {
         boolean archivoNuevo = !(new File(NOMBRE_ARCHIVO).exists());
@@ -49,7 +52,7 @@ public class SummitCuenta {
                         long dniCliente = Long.parseLong(campos[0]);
                         if (dniCliente == dni) {
                             Cliente cliente = new Cliente();
-                            cliente.setDni(dniCliente);
+                            cliente.setDni(campos[0]);
                             cliente.setNombre(campos[1]);
                             cliente.setApellido(campos[2]);
                             return cliente;

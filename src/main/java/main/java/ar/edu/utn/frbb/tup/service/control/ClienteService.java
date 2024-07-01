@@ -11,8 +11,12 @@ public class ClienteService {
 
 
     public void darDeAltaCliente(Cliente cliente) throws ClienteAlreadyExistsException {
-        if (SummitCliente.findByDni(String.valueOf(cliente.getDni())) != null) {
-            throw new ClienteAlreadyExistsException("Ya existe un cliente con DNI " + cliente.getDni());
+        Cliente clienteExistente = SummitCliente.findByDni(String.valueOf(cliente.getDni()));
+        if (cliente.getFechaNacimiento() == null) {
+            throw new IllegalArgumentException("La fecha de nacimiento no puede ser nula");
+        }
+        if (clienteExistente != null) {
+            throw new IllegalArgumentException("Ya existe un cliente con DNI " + cliente.getDni());
         }
 
         if (cliente.getEdad() < 18) {
