@@ -1,3 +1,5 @@
 id,nombre,apellido,dni,fechaNacimiento,tipoPersona,banco,fechaAlta
 114145678,matias,napoli,114145678,1990-05-15,PERSONA_FISICA,Banco Ejemplo,2021-05-15
-12345679,juan,martinez,12345679,2000-05-15,PERSONA_FISICA,Banco Ejemplo,2022-05-10
+42958791,Juan,Perez,42958791,1990-01-15,PERSONA_FISICA,Banco frances,2022-03-19
+42958792,ramon,ayala,42958792,2000-05-25,PERSONA_JURIDICA,Banco provincia,2022-01-10
+42958793,ramon,martinez,42958793,2000-05-25,PERSONA_JURIDICA,Banco provincia,2022-01-10

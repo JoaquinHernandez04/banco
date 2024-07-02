@@ -25,10 +25,10 @@ public class ModificarCliente {
                     campos[1] = nombre;
                     campos[2] = apellido;
                     campos[3] = nuevoDni;
-                    campos[4] = fechaNacimiento.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+                    campos[4] = fechaNacimiento.format(DateTimeFormatter.ofPattern("YYYY-MM-DD"));
                     campos[5] = tipoPersona;
                     campos[6] = banco;
-                    campos[7] = fechaAlta.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+                    campos[7] = fechaAlta.format(DateTimeFormatter.ofPattern("YYYY-MM-DD"));
                 }
                 nuevosDatos.add(String.join(",", campos));
             }
@@ -51,3 +51,5 @@ public class ModificarCliente {
         }
     }
 }
+// hay que hacer una exception para que si se pone un tipo de persona que no sea
+// la indicada salte el error .

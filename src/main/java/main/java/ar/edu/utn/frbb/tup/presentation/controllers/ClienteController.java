@@ -16,14 +16,11 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import main.java.ar.edu.utn.frbb.tup.exception.ClienteAlreadyExistsException;
 import main.java.ar.edu.utn.frbb.tup.model.Cliente;
-import main.java.ar.edu.utn.frbb.tup.model.TipoPersona;
 import main.java.ar.edu.utn.frbb.tup.persistence.SummitCliente;
 
-import java.time.LocalDate;
 import java.util.List;
 
 @RestController
@@ -75,30 +72,43 @@ public class ClienteController {
                 HttpStatus.OK);
     }
 
-    @PutMapping("/ModificarCliente/{dni}") // falta modificar
-    public ResponseEntity<String> modificarCliente(@PathVariable("dni") String dni,
-            @RequestParam(value = "nombre", required = false) String nombre,
-            @RequestParam(value = "apellido", required = false) String apellido,
-            @RequestParam(value = "nuevoDni", required = false) String nuevoDni,
-            @RequestParam(value = "fechaNacimiento", required = false) String fechaNacimiento,
-            @RequestParam(value = "tipoPersona", required = false) String tipoPersona,
-            @RequestParam(value = "banco", required = false) String banco,
-            @RequestParam(value = "fechaAlta", required = false) String fechaAlta) {
+    @PutMapping("/ModificarCliente/{dni}")
+    public ResponseEntity<String> modificarCliente(@PathVariable("dni") String dni, @RequestBody Cliente cliente) {
+        try {
+            // Verificar si el cliente existe y obtener su información actual
+            Cliente clienteExistente = SummitCliente.findByDni(dni);
+            if (clienteExistente == null) {
+                return new ResponseEntity<>("No se encontró ningún cliente con DNI " + dni, HttpStatus.NOT_FOUND);
+            }
 
-        // Parsear fechas si se proporcionan en el formato correcto
-        LocalDate fechaNacimientoDate = null;
-        LocalDate fechaAltaDate = null;
-        if (fechaNacimiento != null && !fechaNacimiento.isEmpty()) {
-            fechaNacimientoDate = LocalDate.parse(fechaNacimiento);
+            // Validar si se proporcionó un nuevo DNI y si es diferente al actual
+            if (cliente.getDni() != null && !cliente.getDni().equals(clienteExistente.getDni())) {
+                // Verificar si el nuevo DNI ya está en uso por otro cliente
+                Cliente clienteConNuevoDni = SummitCliente.findByDni(cliente.getDni());
+                if (clienteConNuevoDni != null) {
+                    return new ResponseEntity<>("Ya existe un cliente con DNI " + cliente.getDni(),
+                            HttpStatus.CONFLICT);
+                }
+            }
+
+            clienteService.ValidardarDeAltaCliente(cliente);
+            ModificarCliente.modificarCliente(
+                    dni,
+                    cliente.getNombre(),
+                    cliente.getApellido(),
+                    cliente.getDni(),
+                    cliente.getFechaNacimiento(),
+                    cliente.getTipoPersona().toString(),
+                    cliente.getBanco(),
+                    cliente.getFechaAlta());
+            return new ResponseEntity<>("Cliente modificado con éxito", HttpStatus.OK);
+        } catch (ClienteAlreadyExistsException e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.CONFLICT); // 409 Conflict
+        } catch (IllegalArgumentException e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST); // 400 Bad Request
+        } catch (Exception e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR); // 500 Internal Server Error
         }
-        if (fechaAlta != null && !fechaAlta.isEmpty()) {
-            fechaAltaDate = LocalDate.parse(fechaAlta);
-        }
-
-        ModificarCliente.modificarCliente(dni, nombre, apellido, nuevoDni, fechaNacimientoDate, tipoPersona, banco,
-                fechaAltaDate);
-
-        return new ResponseEntity<>("Operación de modificación del cliente con DNI " + dni + " ejecutada.",
-                HttpStatus.OK);
     }
 }
+

@@ -36,5 +36,24 @@ public class ClienteService {
         SummitCliente.escribirEnArchivo(cliente);
     }
 
-}
+    public void ValidardarDeAltaCliente(Cliente cliente) throws ClienteAlreadyExistsException {
 
+        if (cliente.getFechaNacimiento() == null) {
+            throw new IllegalArgumentException("La fecha de nacimiento no puede ser nula");
+        }
+
+        if (cliente.getEdad() < 18) {
+            throw new IllegalArgumentException("El cliente debe ser mayor a 18 años");
+        }
+
+        if (cliente.getNombre().isEmpty() || cliente.getApellido().isEmpty()) {
+            throw new IllegalArgumentException("El nombre y apellido del cliente son obligatorios");
+        }
+
+        // Verificar que la fecha de nacimiento no sea en el futuro
+        if (cliente.getFechaNacimiento().isAfter(LocalDate.now())) {
+            throw new IllegalArgumentException("La fecha de nacimiento no puede ser en el futuro");
+        }
+    }
+
+}
