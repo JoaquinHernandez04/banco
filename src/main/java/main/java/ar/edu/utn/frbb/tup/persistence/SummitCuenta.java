@@ -12,9 +12,8 @@ import org.springframework.stereotype.Repository;
 import main.java.ar.edu.utn.frbb.tup.model.*;
 
 @Repository
-
 public class SummitCuenta {
-    private static final String NOMBRE_ARCHIVO = "C:\\Users\\joaqu\\Desktop\\Lab-lll\\tup2024-master\\src\\main\\java\\ar\\edu\\utn\\frbb\\tup\\persistence\\DataBase\\Cuentas.txt"; //cambiar aca 
+    private static final String NOMBRE_ARCHIVO = "C:\\Users\\joaqu\\Desktop\\banco\\src\\main\\java\\main\\java\\ar\\edu\\utn\\frbb\\tup\\persistence\\database\\Cuentas.txt";
     private static final String NOMBRE_ARCHIVO1 = "C:\\Users\\joaqu\\Desktop\\banco\\src\\main\\java\\main\\java\\ar\\edu\\utn\\frbb\\tup\\persistence\\database\\Clientes.txt"; // cambiar
 
     public static void escribirEnArchivo(Cuenta cuenta) {

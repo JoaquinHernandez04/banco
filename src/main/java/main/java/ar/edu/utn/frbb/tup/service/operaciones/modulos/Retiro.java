@@ -8,50 +8,28 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Scanner;
 import main.java.ar.edu.utn.frbb.tup.persistence.SummitMovimientos;
 
 public class Retiro {
     private static final String TIPO_MOVIMIENTO = "RETIRO";
-    private static final String NOMBRE_ARCHIVO = "C:\\Users\\joaqu\\Desktop\\Lab-lll\\tup2024-master\\src\\main\\java\\ar\\edu\\utn\\frbb\\tup\\persistence\\DataBase\\Cuentas.txt";
+    private static final String NOMBRE_ARCHIVO = "C:\\Users\\joaqu\\Desktop\\banco\\src\\main\\java\\main\\java\\ar\\edu\\utn\\frbb\\tup\\persistence\\database\\Cuentas.txt";
 
-    public static void Retirar() {
-        Scanner scanner = new Scanner(System.in);
+    public static void realizarRetiro(String cbu, double monto) {
+        String cbuValidado = SummitMovimientos.buscarCuentaPorCBU(cbu);
 
-        try {
-            String CBU;
-            String CbuValidado = null;
-            while (CbuValidado == null) {
-                System.out.println("Ingresar el CBU al que desea retirar: ");
-                CBU = scanner.nextLine();
-                CbuValidado = SummitMovimientos.buscarCuentaPorCBU(CBU);
-
-                if (CbuValidado == null) {
-                    System.out.println("El CBU ingresado no existe. Por favor, intente nuevamente.");
-                }
-            }
-            System.out.println("Ingresar el monto a retirar: ");
-            while (!scanner.hasNextDouble()) {
-                System.out.println("Monto inválido. Ingresar un número.");
-                scanner.next(); // Descarta la entrada inválida
-            }
-            double monto = scanner.nextDouble();
-
-            // Validar que el monto sea positivo
-            if (monto <= 0) {
-                System.out.println("El monto debe ser positivo.");
-                return;
-            }
-
-            // Registrar el movimiento
-            SummitMovimientos.registrarMovimientoRetiro(CbuValidado, monto, TIPO_MOVIMIENTO);
-        } finally {
-            // Cerrar el scanner para liberar recursos
-
+        if (cbuValidado == null) {
+            System.out.println("El CBU ingresado no existe.");
+            return;
         }
+
+        // Registrar el movimiento de retiro
+        SummitMovimientos.registrarMovimientoRetiro(cbuValidado, monto, TIPO_MOVIMIENTO);
+
+
+        actualizarArchivoCuentas(cbuValidado, monto);
     }
 
-    public static void sobreescribirCuentaRetiro(String CbuValidado, double monto) {
+    public static void actualizarArchivoCuentas(String cbuValidado, double monto) {
         List<String> lineas = new ArrayList<>();
         boolean cuentaEncontrada = false;
 
@@ -62,7 +40,7 @@ public class Retiro {
                 String[] campos = linea.split(",");
                 if (campos.length >= 6) {
                     String cbuCuenta = campos[0];
-                    if (cbuCuenta.equals(CbuValidado)) {
+                    if (cbuCuenta.equals(cbuValidado)) {
                         double balanceActual = Double.parseDouble(campos[3]);
                         double nuevoBalance = balanceActual - monto;
                         campos[3] = String.valueOf(nuevoBalance);
