@@ -34,8 +34,7 @@ public class MoviemientosController {
 
         if (requestBody.containsKey("monto")) {
             double monto = requestBody.get("monto");
-            Retiro.realizarRetiro(cbu, monto);
-            Retiro.actualizarArchivoCuentas(cbu, monto);
+
             SummitMovimientos.registrarMovimientoRetiro(cbu, monto, "RETIRO");
             return ResponseEntity.ok("Retiro realizado correctamente.");
         } else {

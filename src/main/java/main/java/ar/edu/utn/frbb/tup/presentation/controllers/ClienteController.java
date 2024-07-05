@@ -42,6 +42,14 @@ public class ClienteController {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         }
     }
+    /*
+     * {
+     * "nombre": "Cuenta Corriente",
+     * "tipoCuenta": "CORRIENTE",
+     * "balance": 100000,
+     * "moneda": "ARS"
+     * }
+     */
 
     @GetMapping("/MostrarClientes")
     public ResponseEntity<List<Cliente>> obtenerTodosLosClientes() {
