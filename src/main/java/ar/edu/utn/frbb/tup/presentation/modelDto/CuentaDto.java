@@ -1,7 +1,9 @@
 package ar.edu.utn.frbb.tup.presentation.modelDto;
 
+import org.springframework.stereotype.Component;
 import ar.edu.utn.frbb.tup.model.Cuenta;
 
+@Component
 public class CuentaDto {
     private String nombre;
     private long dniTitular;

@@ -1,6 +1,8 @@
 package ar.edu.utn.frbb.tup.presentation.modelDto;
 
+import org.springframework.stereotype.Component;
 
+@Component
 public class ClienteDto extends PersonaDto {
     private String banco;
     private String tipoPersona;

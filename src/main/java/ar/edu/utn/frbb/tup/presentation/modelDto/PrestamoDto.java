@@ -1,5 +1,8 @@
 package ar.edu.utn.frbb.tup.presentation.modelDto;
 
+import org.springframework.stereotype.Component;
+
+@Component
 public class PrestamoDto {
 
     private long numeroCliente;
