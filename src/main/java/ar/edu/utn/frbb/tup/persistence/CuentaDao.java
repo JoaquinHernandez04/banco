@@ -17,7 +17,7 @@ import ar.edu.utn.frbb.tup.model.*;
 
 @Repository
 public class CuentaDao {
-    private static final String CUENTASTXT = "src\\main\\java\\ar\\edu\\utn\\frbb\\tup\\persistence\\DataBase\\Cuentas.txt"; //cambiar aca 
+    private static final String CUENTASTXT = "C:\\Users\\joaqu\\Desktop\\banco\\src\\main\\java\\ar\\edu\\utn\\frbb\\tup\\persistence\\database\\Cuentas.txt"; // cambiar
 
     public Cuenta obtenerCuentaPorCBU(long cbu) {
         List<Cuenta> cuentas = leerCuentasDeArchivo();

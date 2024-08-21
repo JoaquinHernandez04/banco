@@ -15,7 +15,7 @@ import org.springframework.stereotype.Repository;
 @Repository
 public class ClienteDao {
 
-    private static final String CLIENTESTXT = "src\\main\\java\\ar\\edu\\utn\\frbb\\tup\\persistence\\database\\Clientes.txt";
+    private static final String CLIENTESTXT = "C:\\Users\\joaqu\\Desktop\\banco\\src\\main\\java\\ar\\edu\\utn\\frbb\\tup\\persistence\\database\\Clientes.txt";
     
     
     public void crearCliente(Cliente cliente) {

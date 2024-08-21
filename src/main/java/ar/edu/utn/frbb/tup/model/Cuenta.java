@@ -19,7 +19,7 @@ public class Cuenta {
     }
 
     public Cuenta(CuentaDto cuentaDto) {
-        this.dniTitular = Long.parseLong(cuentaDto.getDniTitular());
+        this.dniTitular = cuentaDto.getDniTitular();
         this.nombre = cuentaDto.getNombre();
         this.balance = 0;
         this.tipoCuenta = TipoCuenta.fromString(cuentaDto.getTipoCuenta()); 

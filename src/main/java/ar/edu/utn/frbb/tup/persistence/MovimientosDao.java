@@ -13,7 +13,7 @@ import java.util.List;
 @Repository
 public class MovimientosDao {
 
-    private static final String MOVIMIENTOSTXT = "src\\main\\java\\ar\\edu\\utn\\frbb\\tup\\persistence\\database\\Movimientos.txt";
+    private static final String MOVIMIENTOSTXT = "C:\\Users\\joaqu\\Desktop\\banco\\src\\main\\java\\ar\\edu\\utn\\frbb\\tup\\persistence\\database\\Movimientos.txt";
 
     public void guardarMovimiento(Movimiento movimiento) {
         boolean archivoNuevo = !(new File(MOVIMIENTOSTXT).exists());

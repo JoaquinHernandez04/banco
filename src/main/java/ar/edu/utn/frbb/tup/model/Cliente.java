@@ -5,6 +5,7 @@ import java.time.LocalDate;
 
 public class Cliente extends Persona {
 
+    private long id;
     private TipoPersona tipoPersona;
     private String banco;
     private LocalDate fechaAlta;
@@ -26,6 +27,15 @@ public class Cliente extends Persona {
 
     public Cliente() {
         super();
+    }
+
+    // Getters y setters para id
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
     }
 
     public TipoPersona getTipoPersona() {
@@ -52,8 +62,4 @@ public class Cliente extends Persona {
         this.fechaAlta = fechaAlta;
     }
 
-
 }
-
-
-

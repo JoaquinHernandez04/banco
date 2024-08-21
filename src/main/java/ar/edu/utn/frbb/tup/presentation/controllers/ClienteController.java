@@ -8,11 +8,9 @@ import ar.edu.utn.frbb.tup.exception.ClienteMenorEdadException;
 import ar.edu.utn.frbb.tup.exception.ClienteNoEncontradoException;
 import ar.edu.utn.frbb.tup.model.Cliente;
 import org.springframework.beans.factory.annotation.Autowired;
-import ar.edu.utn.frbb.tup.presentation.validator.ClienteValidator;
-import ar.edu.utn.frbb.tup.service.ClienteService;
 import ar.edu.utn.frbb.tup.presentation.modelDto.ClienteDto;
-
-
+import ar.edu.utn.frbb.tup.service.ClienteService;
+import ar.edu.utn.frbb.tup.presentation.validator.ClienteValidator;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;

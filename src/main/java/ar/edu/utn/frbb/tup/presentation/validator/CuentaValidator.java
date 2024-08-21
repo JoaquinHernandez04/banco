@@ -8,17 +8,18 @@ public class CuentaValidator {
 
     public void validarCuenta(CuentaDto cuentadto) {
 
-        validarDNI(cuentadto.getDniTitular());
+        validarDNI(String.valueOf(cuentadto.getDniTitular()));
 
-        if (Long.parseLong(cuentadto.getDniTitular()) == 0) {
+        if ((cuentadto.getDniTitular()) == 0) {
             throw new IllegalArgumentException("El dni del titular de la cuenta es obligatorio");
         }
 
-        if (Integer.parseInt(cuentadto.getDniTitular()) < 0) {
+        if ((cuentadto.getDniTitular()) < 0) {
             throw new IllegalArgumentException("El dni del titular de la cuenta no puede ser negativo");
         }
-    
-        if (Long.parseLong(cuentadto.getDniTitular().toString()) < 10000000 || Long.parseLong(cuentadto.getDniTitular().toString()) > 99999999) {
+
+        if (cuentadto.getDniTitular() < 10000000
+                || (cuentadto.getDniTitular()) > 99999999) {
             throw new IllegalArgumentException("El dni del titular de la cuenta debe ser de 8 digitos");
         }
 
@@ -28,7 +29,7 @@ public class CuentaValidator {
 
         if (cuentadto.getTipoCuenta() == null || cuentadto.getTipoCuenta().isEmpty()) {
             throw new IllegalArgumentException("El tipo de cuenta es obligatorio");
-        } 
+        }
 
         if (cuentadto.getMoneda() == null || cuentadto.getMoneda().isEmpty()) {
             throw new IllegalArgumentException("La moneda de la cuenta es obligatoria");
@@ -43,5 +44,5 @@ public class CuentaValidator {
             throw new IllegalArgumentException("El dni no tiene el formato correcto");
         }
     }
-    
+
 }
