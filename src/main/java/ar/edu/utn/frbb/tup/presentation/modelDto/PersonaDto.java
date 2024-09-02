@@ -1,8 +1,7 @@
 package ar.edu.utn.frbb.tup.presentation.modelDto;
 
-import org.springframework.stereotype.Component;
 
-@Component
+
 public class PersonaDto {
     private String dni;
     private String nombre;

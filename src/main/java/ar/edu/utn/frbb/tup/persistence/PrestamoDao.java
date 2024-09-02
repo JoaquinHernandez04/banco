@@ -41,25 +41,56 @@ public class PrestamoDao {
         }
     }
 
-    public List<Prestamo> obtenerPrestamosPorCliente(long clienteId) {
-        List<Prestamo> prestamos = new ArrayList<>();
-
+    public List<Prestamo> obtenerPrestamoPorCbu(long cbu) {
+        List<Prestamo> prestamo = new ArrayList<>();
         try (BufferedReader lector = new BufferedReader(new FileReader(PRESTAMOSTXT))) {
             String linea;
-            lector.readLine(); // Leer la cabecera
-
+            lector.readLine();
             while ((linea = lector.readLine()) != null) {
                 String[] datos = linea.split(",");
-                if (Long.parseLong(datos[3]) == clienteId) {
-                    prestamos.add(parsePrestamoToObjet(datos));
+
+                if (Long.parseLong(datos[0]) == cbu || Long.parseLong(datos[1]) == cbu) {
+                    Prestamo prestamos = parsePrestamoToObjet(datos);
+                    prestamo.add(prestamos);
                 }
             }
-        } catch (IOException ex) {
-            System.err.println("Error al leer el archivo de préstamos: " + ex.getMessage());
+        } catch (IOException e) {
+            e.printStackTrace();
         }
 
-        return prestamos;
+        return prestamo;
     }
+
+    public void borrarPrestamo(long CBU) {
+        List<String> prestamoStr = new ArrayList<>();
+
+        try (BufferedReader lector = new BufferedReader(new FileReader(PRESTAMOSTXT))) {
+            String linea = lector.readLine();
+            prestamoStr.add(linea);
+            while ((linea = lector.readLine()) != null) {
+                String[] campos = linea.split(",");
+                if (Long.parseLong(campos[0]) != CBU) {
+                    prestamoStr.add(linea);
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+            throw new RuntimeException("No se pudo acceder a la base de datos");
+        }
+
+        if (!prestamoStr.isEmpty()) {
+            try (BufferedWriter escritor = new BufferedWriter(new FileWriter(PRESTAMOSTXT))) {
+                for (String prestamosStr : prestamoStr) {
+                    escritor.write(prestamosStr);
+                    escritor.newLine();
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+                throw new RuntimeException("No se pudo escribir en el archivo");
+            }
+        }
+    }
+
 
     private Prestamo parsePrestamoToObjet(String[] datos) {
         Prestamo prestamo = new Prestamo();
@@ -67,7 +98,7 @@ public class PrestamoDao {
         prestamo.setPlazoMeses(Integer.parseInt(datos[1]));
         prestamo.setEstado(datos[2]);
 
-        // Aquí deberías obtener el cliente por su ID (datos[3])
+
         Cliente cliente = new Cliente(); // Placeholder, obtener cliente real del servicio
         cliente.setId(Long.parseLong(datos[3]));
         prestamo.setCliente(cliente);

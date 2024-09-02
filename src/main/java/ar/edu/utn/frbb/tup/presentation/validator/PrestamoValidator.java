@@ -10,4 +10,5 @@ public class PrestamoValidator {
      * Verificar que el cliente posea una cuenta en la moneda en al que solicita el
      * préstamo
      */
+
 }

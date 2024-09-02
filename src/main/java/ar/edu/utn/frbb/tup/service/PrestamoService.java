@@ -10,7 +10,10 @@ import ar.edu.utn.frbb.tup.persistence.PrestamoDao;
 import ar.edu.utn.frbb.tup.presentation.modelDto.CuentaDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
+import ar.edu.utn.frbb.tup.presentation.modelDto.PrestamoDto;
+import ar.edu.utn.frbb.tup.exception.CuentaSinSaldoException;
+import ar.edu.utn.frbb.tup.exception.MonedaInvalidaException;
+import ar.edu.utn.frbb.tup.exception.TipoMonedasInvalidasException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -28,9 +31,19 @@ public class PrestamoService {
 
     // Servicio externo simulado para calificación crediticia
     private boolean verificarCalificacionCrediticia(String dni) {
-        // Simulación: Clientes con DNI que terminan en número impar tienen mala
-        // calificación
+        // Simula la calificación crediticia
         return Integer.parseInt(dni.substring(dni.length() - 1)) % 2 == 0;
+    }
+
+    // revisar aca el error
+    public List<Prestamo> verEstadoPrestamosPorCbu(long cbu) {
+        return prestamoDao.obtenerPrestamoPorCbu(cbu);
+    }
+
+    // revisar aca el error
+    public Prestamo pedirPrestamo(PrestamoDto prestamoDto)
+            throws CuentaNoEncontradaException, CuentaSinSaldoException, TipoMonedasInvalidasException {
+        return prestamoDao.guardarPrestamo(prestamoDto);
     }
 
     public Prestamo solicitarPrestamo(long numeroCliente, double montoPrestamo, String moneda, int plazoMeses)
@@ -91,7 +104,7 @@ public class PrestamoService {
             throw new ClienteNoEncontradoException("Cliente no encontrado");
         }
 
-        return prestamoDao.obtenerPrestamosPorCliente(cliente.getId());
+        return prestamoDao.obtenerPrestamoPorCbu(cliente.getId());
     }
 
     // Método auxiliar para convertir de Cuenta a CuentaDto

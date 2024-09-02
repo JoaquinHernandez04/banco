@@ -12,24 +12,23 @@ import ar.edu.utn.frbb.tup.presentation.modelDto.ClienteDto;
 import ar.edu.utn.frbb.tup.persistence.ClienteDao;
 import ar.edu.utn.frbb.tup.persistence.CuentaDao;
 import ar.edu.utn.frbb.tup.persistence.MovimientosDao;
-//import ar.edu.utn.frbb.tup.persistence.PrestamoDao;
+import ar.edu.utn.frbb.tup.persistence.PrestamoDao;
 
 import java.util.List;
 
 @Service
 public class ClienteService {
 
-    @Autowired
+
     private ClienteDao clienteDao;
 
-    @Autowired
+
     private CuentaDao cuentaDao;
 
     @Autowired
     private MovimientosDao movimientoDao;
 
-    @Autowired
-    // private PrestamoDao prestamoDao;
+
 
     public Cliente darDeAltaCliente(ClienteDto clientedto)
             throws ClienteAlreadyExistsException, ClienteMenorEdadException {
@@ -57,7 +56,7 @@ public class ClienteService {
             cuentaDao.borrarCuenta(cuenta.getCBU());
         }
         movimientoDao.borrarMovimiento(dni);
-        // transferenciaDao.borrarTransferencia(dni);
+
 
         return cliente;
     }

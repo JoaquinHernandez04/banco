@@ -21,7 +21,7 @@ public class Cuenta {
     public Cuenta(CuentaDto cuentaDto) {
         this.dniTitular = cuentaDto.getDniTitular();
         this.nombre = cuentaDto.getNombre();
-        this.balance = 0;
+        this.balance = cuentaDto.getBalance();
         this.tipoCuenta = TipoCuenta.fromString(cuentaDto.getTipoCuenta()); 
         this.CBU = Cuenta.generarCBU();
         this.moneda = TipoMoneda.fromString(cuentaDto.getMoneda());

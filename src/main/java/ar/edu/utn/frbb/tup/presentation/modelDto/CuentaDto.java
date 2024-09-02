@@ -1,23 +1,21 @@
 package ar.edu.utn.frbb.tup.presentation.modelDto;
 
-import org.springframework.stereotype.Component;
+
 import ar.edu.utn.frbb.tup.model.Cuenta;
 
-@Component
+
 public class CuentaDto {
     private String nombre;
     private long dniTitular;
     private String tipoCuenta;
-    private String tipoMoneda;
+    private String moneda;
     private long cbu;
     private double balance;
-    private String moneda;
     private String fechaCreacion;
 
     public CuentaDto() {
     }
 
-    // Constructor que acepta un objeto Cuenta
     public CuentaDto(Cuenta cuenta) {
         this.cbu = cuenta.getCBU();
         this.nombre = cuenta.getNombre();
@@ -27,6 +25,8 @@ public class CuentaDto {
         this.fechaCreacion = cuenta.getFechaCreacion().toString();
         this.dniTitular = cuenta.getDniTitular();
     }
+
+    // Getters y setters actualizados
     public String getNombre() {
         return nombre;
     }
@@ -47,22 +47,16 @@ public class CuentaDto {
         return tipoCuenta;
     }
 
-    public CuentaDto setTipoCuenta(String tipoCuenta) {
+    public void setTipoCuenta(String tipoCuenta) {
         this.tipoCuenta = tipoCuenta;
-        return this;
     }
 
     public String getMoneda() {
-        return tipoMoneda;
+        return moneda;
     }
 
-    public CuentaDto setMoneda(String moneda) {
-        this.tipoMoneda = moneda;
-        return this;
-    }
-
-    public void setTipoMoneda(String tipoMoneda) {
-        this.tipoMoneda = tipoMoneda;
+    public void setMoneda(String moneda) {
+        this.moneda = moneda;
     }
 
     public String getFechaCreacion() {
@@ -88,5 +82,4 @@ public class CuentaDto {
     public void setBalance(double balance) {
         this.balance = balance;
     }
-
 }
