@@ -16,7 +16,7 @@ import ar.edu.utn.frbb.tup.exception.MonedaInvalidaException;
 import ar.edu.utn.frbb.tup.exception.TipoMonedasInvalidasException;
 import java.util.ArrayList;
 import java.util.List;
-
+import ar.edu.utn.frbb.tup.persistence.CuentaDao;
 @Service
 public class PrestamoService {
 
@@ -28,6 +28,8 @@ public class PrestamoService {
 
     @Autowired
     private PrestamoDao prestamoDao;
+    @Autowired
+    private CuentaDao cuentaDao;
 
     // Servicio externo simulado para calificación crediticia
     private boolean verificarCalificacionCrediticia(String dni) {
@@ -41,13 +43,15 @@ public class PrestamoService {
     }
 
     // revisar aca el error
-    public Prestamo pedirPrestamo(PrestamoDto prestamoDto)
-            throws CuentaNoEncontradaException, CuentaSinSaldoException, TipoMonedasInvalidasException {
-        return prestamoDao.guardarPrestamo(prestamoDto);
-    }
 
-    public Prestamo solicitarPrestamo(long numeroCliente, double montoPrestamo, String moneda, int plazoMeses)
+    public Prestamo solicitarPrestamo(PrestamoDto prestamoDto)
             throws ClienteNoEncontradoException, CuentaNoEncontradaException, CalificacionCrediticiaRechazadaException {
+
+        // Obtener el número de cliente del DTO
+        long numeroCliente = prestamoDto.getNumeroCliente();
+        double montoPrestamo = prestamoDto.getMontoPrestamo();
+        int plazoMeses = prestamoDto.getPlazoEnMeses();
+        String moneda = prestamoDto.getMoneda();
 
         // Verificar si el cliente existe
         Cliente cliente = clienteService.mostrarCliente(numeroCliente);
@@ -55,48 +59,48 @@ public class PrestamoService {
             throw new ClienteNoEncontradoException("Cliente no encontrado");
         }
 
-        // Verificar si el cliente tiene una cuenta en la moneda solicitada
-        List<Cuenta> cuentasCliente = cuentaService.mostrarCuenta(cliente.getDni());
-        Cuenta cuenta = null;
-        for (Cuenta c : cuentasCliente) {
-            if (c.getMoneda().toString().equals(moneda)) {
-                cuenta = c;
-                break;
-            }
+    // Verificar si el cliente tiene una cuenta en la moneda solicitada
+    List<Cuenta> cuentasCliente = cuentaService.mostrarCuenta(cliente.getDni());
+    Cuenta cuenta = null;
+    for (Cuenta c : cuentasCliente) {
+        if (c.getMoneda().toString().equalsIgnoreCase(moneda)) {
+            cuenta = c;
+            break;
         }
-
-        if (cuenta == null) {
-            throw new CuentaNoEncontradaException("Cuenta en la moneda solicitada no encontrada");
-        }
-
-        // Verificar calificación crediticia
-        if (!verificarCalificacionCrediticia(String.valueOf(cliente.getDni()))) {
-            throw new CalificacionCrediticiaRechazadaException(
-                    "El cliente no cumple con los requisitos de calificación crediticia");
-        }
-
-        // Calcular el plan de pagos con un interés fijo del 5% anual
-        double interesAnual = 0.05;
-        double tasaMensual = interesAnual / 12;
-        double cuotaMensual = (montoPrestamo * tasaMensual) / (1 - Math.pow(1 + tasaMensual, -plazoMeses));
-
-        List<Double> planPagos = new ArrayList<>();
-        for (int i = 0; i < plazoMeses; i++) {
-            planPagos.add(cuotaMensual);
-        }
-
-        // Crear el préstamo y actualizar el saldo de la cuenta
-        Prestamo prestamo = new Prestamo(montoPrestamo, plazoMeses, planPagos, "APROBADO", cliente);
-        cuenta.setBalance(cuenta.getBalance() + montoPrestamo);
-
-        // Convertir Cuenta a CuentaDto y dar de alta la cuenta actualizada
-        cuentaService.darDeAltaCuenta(convertirCuentaADto(cuenta));
-
-        // Guardar el préstamo en la capa de persistencia
-        prestamoDao.guardarPrestamo(prestamo);
-
-        return prestamo;
     }
+
+    if (cuenta == null) {
+        throw new CuentaNoEncontradaException("Cuenta en la moneda solicitada no encontrada");
+    }
+
+    // Verificar calificación crediticia
+    if (!verificarCalificacionCrediticia(String.valueOf(cliente.getDni()))) {
+        throw new CalificacionCrediticiaRechazadaException(
+                "El cliente no cumple con los requisitos de calificación crediticia");
+    }
+
+    // Calcular el plan de pagos con un interés fijo del 5% anual
+    double interesAnual = 0.05;
+    double tasaMensual = interesAnual / 12;
+    double cuotaMensual = (montoPrestamo * tasaMensual) / (1 - Math.pow(1 + tasaMensual, -plazoMeses));
+
+    List<Double> planPagos = new ArrayList<>();
+    for (int i = 0; i < plazoMeses; i++) {
+        planPagos.add(cuotaMensual);
+    }
+
+    // Crear el préstamo y actualizar el saldo de la cuenta
+    Prestamo prestamo = new Prestamo(montoPrestamo, plazoMeses, planPagos, "APROBADO", cliente);
+    cuenta.setBalance(cuenta.getBalance() + montoPrestamo);
+
+    // Convertir Cuenta a CuentaDto y dar de alta la cuenta actualizada
+    cuentaService.darDeAltaCuenta(convertirCuentaADto(cuenta));
+
+    // Guardar el préstamo en la capa de persistencia
+    prestamoDao.guardarPrestamo(prestamo);
+
+    return prestamo;
+}
 
     public List<Prestamo> consultarPrestamosPorCliente(long numeroCliente) throws ClienteNoEncontradoException {
         Cliente cliente = clienteService.mostrarCliente(numeroCliente);

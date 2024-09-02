@@ -33,7 +33,7 @@ public class PrestamoController {
     public ResponseEntity<Prestamo> realizarPrestamo(@RequestBody PrestamoDto prestamoDto)
             throws CuentaNoEncontradaException, CuentaSinSaldoException, TipoMonedasInvalidasException {
         // prestamoValidator.validarTransferencia(prestamoDto);
-        return new ResponseEntity<>(prestamoService.pedirPrestamo(prestamoDto), HttpStatus.OK);
+        return new ResponseEntity<>(prestamoService.solicitarPrestamo(prestamoDto), HttpStatus.OK);
     }
 
 }
