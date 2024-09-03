@@ -19,10 +19,10 @@ import java.util.List;
 @Service
 public class ClienteService {
 
-
+    @Autowired
     private ClienteDao clienteDao;
 
-
+    @Autowired
     private CuentaDao cuentaDao;
 
     @Autowired

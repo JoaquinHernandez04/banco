@@ -1,3 +1,4 @@
+package ar.edu.utn.frbb.tup.presentation.controllers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -24,14 +25,17 @@ public class PrestamoController {
     private PrestamoService prestamoService;
 
     @GetMapping("/prestamo/{clienteId}")
-    public ResponseEntity<List<Prestamo>> estadoPrestamos(@PathVariable long cbu) {
+    public ResponseEntity<List<Prestamo>> estadoPrestamos(@PathVariable long cbu)
+            throws ClienteNoEncontradoException {
 
-        return new ResponseEntity<>(prestamoService.consultarPrestamosPorCliente(cbu), HttpStatus.OK);
+        List<Prestamo> prestamos = prestamoService.consultarPrestamosPorCliente(cbu);
+        return new ResponseEntity<>(prestamos, HttpStatus.OK);
     }
 
     @PostMapping("/prestamo")
     public ResponseEntity<Prestamo> realizarPrestamo(@RequestBody PrestamoDto prestamoDto)
-            throws CuentaNoEncontradaException, CuentaSinSaldoException, TipoMonedasInvalidasException {
+            throws CuentaNoEncontradaException, CuentaSinSaldoException, TipoMonedasInvalidasException,
+            ClienteNoEncontradoException, CalificacionCrediticiaRechazadaException {
         // prestamoValidator.validarTransferencia(prestamoDto);
         return new ResponseEntity<>(prestamoService.solicitarPrestamo(prestamoDto), HttpStatus.OK);
     }

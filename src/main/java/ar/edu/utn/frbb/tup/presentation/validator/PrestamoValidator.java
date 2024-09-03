@@ -1,5 +1,8 @@
 package ar.edu.utn.frbb.tup.presentation.validator;
 
+import org.springframework.stereotype.Component;
+
+@Component
 public class PrestamoValidator {
     /*
      * Verificar que el cliente exista y calcular el plan de pagos mensuales basado

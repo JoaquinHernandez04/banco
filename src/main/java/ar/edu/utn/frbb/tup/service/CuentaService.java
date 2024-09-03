@@ -17,15 +17,15 @@ import java.util.List;
 @Service
 public class CuentaService {
 
-
+    @Autowired
     private CuentaDao cuentaDao;
 
-
+    @Autowired
     private ClienteDao clienteDao;
 
-
+    @Autowired
     private MovimientosDao movimientoDao;
-
+    @Autowired
     private PrestamoDao prestamoDao;
 
     public Cuenta darDeAltaCuenta(CuentaDto cuentaDto) throws ClienteNoEncontradoException {

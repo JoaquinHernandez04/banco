@@ -42,7 +42,7 @@ public class PrestamoService {
         return prestamoDao.obtenerPrestamoPorCbu(cbu);
     }
 
-    // revisar aca el error
+
 
     public Prestamo solicitarPrestamo(PrestamoDto prestamoDto)
             throws ClienteNoEncontradoException, CuentaNoEncontradaException, CalificacionCrediticiaRechazadaException {
@@ -93,11 +93,10 @@ public class PrestamoService {
     Prestamo prestamo = new Prestamo(montoPrestamo, plazoMeses, planPagos, "APROBADO", cliente);
     cuenta.setBalance(cuenta.getBalance() + montoPrestamo);
 
-    // Convertir Cuenta a CuentaDto y dar de alta la cuenta actualizada
-    cuentaService.darDeAltaCuenta(convertirCuentaADto(cuenta));
 
     // Guardar el préstamo en la capa de persistencia
     prestamoDao.guardarPrestamo(prestamo);
+    // cuentaDao.actualizarBalanceCuenta(numeroCliente, montoPrestamo); // aca
 
     return prestamo;
 }
