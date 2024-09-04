@@ -2,10 +2,11 @@ package ar.edu.utn.frbb.tup.model;
 
 import java.util.List;
 
+
 public class Prestamo {
     private double monto;
     private int plazoMeses;
-    private List<Double> planPagos;
+    private List<PlanPago> planPagos;
     private String estado;
     private Cliente cliente; // Atributo Cliente
 
@@ -13,12 +14,12 @@ public class Prestamo {
         // Constructor por defecto
     }
 
-    public Prestamo(double monto, int plazoMeses, List<Double> planPagos, String estado, Cliente cliente) {
+    public Prestamo(double monto, int plazoMeses, List<PlanPago> planPagos, String estado, Cliente cliente) {
         this.monto = monto;
         this.plazoMeses = plazoMeses;
         this.planPagos = planPagos;
         this.estado = estado;
-        this.cliente = cliente; // Asignación del cliente
+        this.cliente = cliente;
     }
 
     // Getters y Setters para cada atributo
@@ -38,11 +39,11 @@ public class Prestamo {
         this.plazoMeses = plazoMeses;
     }
 
-    public List<Double> getPlanPagos() {
+    public List<PlanPago> getPlanPagos() {
         return planPagos;
     }
 
-    public void setPlanPagos(List<Double> planPagos) {
+    public void setPlanPagos(List<PlanPago> planPagos) {
         this.planPagos = planPagos;
     }
 
@@ -54,7 +55,6 @@ public class Prestamo {
         this.estado = estado;
     }
 
-    // Métodos getCliente() y setCliente()
     public Cliente getCliente() {
         return cliente;
     }

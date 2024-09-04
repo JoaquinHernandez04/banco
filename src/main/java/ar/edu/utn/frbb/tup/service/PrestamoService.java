@@ -5,6 +5,7 @@ import ar.edu.utn.frbb.tup.exception.CuentaNoEncontradaException;
 import ar.edu.utn.frbb.tup.exception.CalificacionCrediticiaRechazadaException;
 import ar.edu.utn.frbb.tup.model.Cliente;
 import ar.edu.utn.frbb.tup.model.Cuenta;
+import ar.edu.utn.frbb.tup.model.PlanPago;
 import ar.edu.utn.frbb.tup.model.Prestamo;
 import ar.edu.utn.frbb.tup.persistence.PrestamoDao;
 import ar.edu.utn.frbb.tup.presentation.modelDto.CuentaDto;
@@ -53,25 +54,18 @@ public class PrestamoService {
         int plazoMeses = prestamoDto.getPlazoEnMeses();
         String moneda = prestamoDto.getMoneda();
 
-        // Verificar si el cliente existe
-        Cliente cliente = clienteService.mostrarCliente(numeroCliente);
-        if (cliente == null) {
-            throw new ClienteNoEncontradoException("Cliente no encontrado");
-        }
+    // Verificar si el cliente existe
+    Cliente cliente = clienteService.mostrarCliente(numeroCliente);
+    if (cliente == null) {
+        throw new ClienteNoEncontradoException("Cliente no encontrado");
+    }
 
     // Verificar si el cliente tiene una cuenta en la moneda solicitada
     List<Cuenta> cuentasCliente = cuentaService.mostrarCuenta(cliente.getDni());
-    Cuenta cuenta = null;
-    for (Cuenta c : cuentasCliente) {
-        if (c.getMoneda().toString().equalsIgnoreCase(moneda)) {
-            cuenta = c;
-            break;
-        }
-    }
-
-    if (cuenta == null) {
-        throw new CuentaNoEncontradaException("Cuenta en la moneda solicitada no encontrada");
-    }
+    Cuenta cuenta = cuentasCliente.stream()
+            .filter(c -> c.getMoneda().toString().equalsIgnoreCase(moneda))
+            .findFirst()
+            .orElseThrow(() -> new CuentaNoEncontradaException("Cuenta en la moneda solicitada no encontrada"));
 
     // Verificar calificación crediticia
     if (!verificarCalificacionCrediticia(String.valueOf(cliente.getDni()))) {
@@ -84,19 +78,17 @@ public class PrestamoService {
     double tasaMensual = interesAnual / 12;
     double cuotaMensual = (montoPrestamo * tasaMensual) / (1 - Math.pow(1 + tasaMensual, -plazoMeses));
 
-    List<Double> planPagos = new ArrayList<>();
-    for (int i = 0; i < plazoMeses; i++) {
-        planPagos.add(cuotaMensual);
+    List<PlanPago> planPagos = new ArrayList<>();
+    for (int i = 1; i <= plazoMeses; i++) {
+        planPagos.add(new PlanPago(i, cuotaMensual));
     }
 
     // Crear el préstamo y actualizar el saldo de la cuenta
     Prestamo prestamo = new Prestamo(montoPrestamo, plazoMeses, planPagos, "APROBADO", cliente);
     cuenta.setBalance(cuenta.getBalance() + montoPrestamo);
 
-
     // Guardar el préstamo en la capa de persistencia
     prestamoDao.guardarPrestamo(prestamo);
-    // cuentaDao.actualizarBalanceCuenta(numeroCliente, montoPrestamo); // aca
 
     return prestamo;
 }

@@ -6,7 +6,7 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-
+import java.util.stream.Collectors;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,6 +14,7 @@ import org.springframework.stereotype.Repository;
 
 import ar.edu.utn.frbb.tup.model.Prestamo;
 import ar.edu.utn.frbb.tup.model.Cliente;
+import ar.edu.utn.frbb.tup.model.PlanPago;
 
 @Repository
 public class PrestamoDao {
@@ -32,7 +33,10 @@ public class PrestamoDao {
             escritor.write(prestamo.getPlazoMeses() + ",");
             escritor.write(prestamo.getEstado() + ",");
             escritor.write(prestamo.getCliente().getId() + ",");
-            escritor.write(prestamo.getPlanPagos().toString().replace("[", "").replace("]", ""));
+            // Cambiar cómo se escribe el plan de pagos
+            escritor.write(prestamo.getPlanPagos().stream()
+                    .map(planPago -> planPago.getCuotaNro() + ":" + planPago.getMonto())
+                    .collect(Collectors.joining(";"))); // Formato: cuotaNro:monto;cuotaNro:monto;...
             escritor.newLine();
 
             System.out.println("Datos del préstamo guardados en " + PRESTAMOSTXT + " correctamente.");
@@ -42,23 +46,23 @@ public class PrestamoDao {
     }
 
     public List<Prestamo> obtenerPrestamoPorCbu(long cbu) {
-        List<Prestamo> prestamo = new ArrayList<>();
+        List<Prestamo> prestamos = new ArrayList<>();
         try (BufferedReader lector = new BufferedReader(new FileReader(PRESTAMOSTXT))) {
             String linea;
-            lector.readLine();
+            lector.readLine(); // Leer la línea de encabezado
             while ((linea = lector.readLine()) != null) {
                 String[] datos = linea.split(",");
 
-                if (Long.parseLong(datos[0]) == cbu || Long.parseLong(datos[1]) == cbu) {
-                    Prestamo prestamos = parsePrestamoToObjet(datos);
-                    prestamo.add(prestamos);
+                if (Long.parseLong(datos[3]) == cbu) {
+                    Prestamo prestamo = parsePrestamoToObjet(datos);
+                    prestamos.add(prestamo);
                 }
             }
         } catch (IOException e) {
             e.printStackTrace();
         }
 
-        return prestamo;
+        return prestamos;
     }
 
     public void borrarPrestamo(long CBU) {
@@ -66,10 +70,10 @@ public class PrestamoDao {
 
         try (BufferedReader lector = new BufferedReader(new FileReader(PRESTAMOSTXT))) {
             String linea = lector.readLine();
-            prestamoStr.add(linea);
+            prestamoStr.add(linea); // Agrega la línea de encabezado
             while ((linea = lector.readLine()) != null) {
                 String[] campos = linea.split(",");
-                if (Long.parseLong(campos[0]) != CBU) {
+                if (Long.parseLong(campos[3]) != CBU) { // Comparación corregida a campos[3]
                     prestamoStr.add(linea);
                 }
             }
@@ -91,22 +95,24 @@ public class PrestamoDao {
         }
     }
 
-
     private Prestamo parsePrestamoToObjet(String[] datos) {
         Prestamo prestamo = new Prestamo();
         prestamo.setMonto(Double.parseDouble(datos[0]));
         prestamo.setPlazoMeses(Integer.parseInt(datos[1]));
         prestamo.setEstado(datos[2]);
 
-
         Cliente cliente = new Cliente(); // Placeholder, obtener cliente real del servicio
         cliente.setId(Long.parseLong(datos[3]));
         prestamo.setCliente(cliente);
 
-        String[] pagos = datos[4].split(" ");
-        List<Double> planPagos = new ArrayList<>();
+        // Cambiar cómo se parsea el plan de pagos
+        String[] pagos = datos[4].split(";"); // Divide el plan de pagos por el punto y coma
+        List<PlanPago> planPagos = new ArrayList<>();
         for (String pago : pagos) {
-            planPagos.add(Double.parseDouble(pago.trim()));
+            String[] detallesPago = pago.split(":"); // Divide cada cuota por el colon
+            int cuotaNro = Integer.parseInt(detallesPago[0]);
+            double monto = Double.parseDouble(detallesPago[1]);
+            planPagos.add(new PlanPago(cuotaNro, monto)); // Agrega un nuevo PlanPago a la lista
         }
         prestamo.setPlanPagos(planPagos);
 
