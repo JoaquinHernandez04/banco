@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import ar.edu.utn.frbb.tup.presentation.modelDto.ClientePrestamosDto;
 
 import ar.edu.utn.frbb.tup.service.PrestamoService;
 import ar.edu.utn.frbb.tup.exception.CalificacionCrediticiaRechazadaException;
@@ -15,7 +16,7 @@ import ar.edu.utn.frbb.tup.presentation.modelDto.PrestamoEstadoDto;
 import ar.edu.utn.frbb.tup.exception.CuentaNoEncontradaException;
 import ar.edu.utn.frbb.tup.exception.CuentaSinSaldoException;
 import ar.edu.utn.frbb.tup.exception.TipoMonedasInvalidasException;
-
+import ar.edu.utn.frbb.tup.presentation.validator.PrestamoValidator;
 import java.util.List;
 
 @RestController
@@ -24,14 +25,14 @@ public class PrestamoController {
 
     @Autowired
     private PrestamoService prestamoService;
-
+    @Autowired
+    private PrestamoValidator prestamoValidator;
     @PostMapping("/prestamo")
     public ResponseEntity<Prestamo> realizarPrestamo(@RequestBody PrestamoDto prestamoDto)
             throws CuentaNoEncontradaException, TipoMonedasInvalidasException,
             ClienteNoEncontradoException, CalificacionCrediticiaRechazadaException {
 
-        // Aquí podrías agregar validaciones adicionales si es necesario
-        // prestamoValidator.validarPrestamo(prestamoDto);
+        prestamoValidator.validarPrestamo(prestamoDto);
 
         // Llamamos al servicio para procesar la solicitud de préstamo
         Prestamo prestamo = prestamoService.solicitarPrestamo(prestamoDto);
@@ -48,15 +49,18 @@ public class PrestamoController {
          * }
          */
     }
-
     @GetMapping("/prestamo/{numeroCliente}")
-    public ResponseEntity<List<PrestamoEstadoDto>> consultarEstadoPrestamos(@PathVariable long numeroCliente)
+    public ResponseEntity<ClientePrestamosDto> consultarEstadoPrestamos(@PathVariable long numeroCliente)
             throws ClienteNoEncontradoException {
         // Llamada al servicio para obtener el estado de los préstamos
         List<PrestamoEstadoDto> prestamos = prestamoService.consultarEstadoPrestamos(numeroCliente);
 
-        // Devolver la lista de préstamos en la respuesta
-        return ResponseEntity.ok(prestamos);
+        // Crear el DTO de respuesta
+        ClientePrestamosDto responseDto = new ClientePrestamosDto(numeroCliente, prestamos);
+
+        // Devolver el DTO de respuesta en la respuesta
+        return ResponseEntity.ok(responseDto);
     }
+
 }
 
