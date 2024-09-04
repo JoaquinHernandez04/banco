@@ -12,6 +12,7 @@ import ar.edu.utn.frbb.tup.presentation.modelDto.CuentaDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ar.edu.utn.frbb.tup.presentation.modelDto.PrestamoDto;
+import ar.edu.utn.frbb.tup.presentation.modelDto.PrestamoEstadoDto;
 import ar.edu.utn.frbb.tup.exception.CuentaSinSaldoException;
 import ar.edu.utn.frbb.tup.exception.MonedaInvalidaException;
 import ar.edu.utn.frbb.tup.exception.TipoMonedasInvalidasException;
@@ -60,6 +61,7 @@ public class PrestamoService {
         throw new ClienteNoEncontradoException("Cliente no encontrado");
     }
 
+    cliente.setId(numeroCliente); // Asignar el número de cliente al cliente
     // Verificar si el cliente tiene una cuenta en la moneda solicitada
     List<Cuenta> cuentasCliente = cuentaService.mostrarCuenta(cliente.getDni());
     Cuenta cuenta = cuentasCliente.stream()
@@ -85,11 +87,11 @@ public class PrestamoService {
 
     // Crear el préstamo y actualizar el saldo de la cuenta
     Prestamo prestamo = new Prestamo(montoPrestamo, plazoMeses, planPagos, "APROBADO", cliente);
-    cuenta.setBalance(cuenta.getBalance() + montoPrestamo);
 
     // Guardar el préstamo en la capa de persistencia
+    double nuevoBalance = cuenta.getBalance() + montoPrestamo;
+    cuentaDao.actualizarBalanceCuenta(cuenta.getCBU(), nuevoBalance);
     prestamoDao.guardarPrestamo(prestamo);
-
     return prestamo;
 }
 
@@ -100,6 +102,18 @@ public class PrestamoService {
         }
 
         return prestamoDao.obtenerPrestamoPorCbu(cliente.getId());
+    }
+
+    public List<PrestamoEstadoDto> consultarEstadoPrestamos(long numeroCliente) throws ClienteNoEncontradoException {
+        // Obtener préstamos del cliente usando el DAO
+        List<PrestamoEstadoDto> prestamos = prestamoDao.obtenerPrestamosPorCliente(numeroCliente);
+
+        if (prestamos == null || prestamos.isEmpty()) {
+            throw new ClienteNoEncontradoException(
+                    "No se encontraron préstamos para el cliente con número: " + numeroCliente);
+        }
+
+        return prestamos;
     }
 
     // Método auxiliar para convertir de Cuenta a CuentaDto

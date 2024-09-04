@@ -29,6 +29,7 @@ public class CuentaDao {
         return null;
     }
 
+
     public void actualizarBalanceCuenta(long cbu, double nuevoBalance) {
         List<Cuenta> cuentas = leerCuentasDeArchivo();
         try (BufferedWriter escritor = new BufferedWriter(new FileWriter(CUENTASTXT))) {

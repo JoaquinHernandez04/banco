@@ -9,7 +9,7 @@ import java.io.IOException;
 import java.util.stream.Collectors;
 import java.util.ArrayList;
 import java.util.List;
-
+import ar.edu.utn.frbb.tup.presentation.modelDto.PrestamoEstadoDto;
 import org.springframework.stereotype.Repository;
 
 import ar.edu.utn.frbb.tup.model.Prestamo;
@@ -43,6 +43,61 @@ public class PrestamoDao {
         } catch (IOException ex) {
             System.err.println("Error al escribir en el archivo: " + ex.getMessage());
         }
+    }
+
+    // aca se actualiza el estado del prestamo
+    public List<PrestamoEstadoDto> obtenerPrestamosPorCliente(long numeroCliente) {
+        List<PrestamoEstadoDto> prestamosEstado = new ArrayList<>();
+
+        try (BufferedReader lector = new BufferedReader(new FileReader(PRESTAMOSTXT))) {
+            String linea;
+            lector.readLine(); // Omitir la línea de encabezado
+            while ((linea = lector.readLine()) != null) {
+                String[] datos = linea.split(",");
+                if (Long.parseLong(datos[3]) == numeroCliente) { // Suponiendo que el clienteId está en el índice 3
+
+                    // Crear objeto Prestamo a partir de los datos
+                    Prestamo prestamo = new Prestamo();
+                    prestamo.setMonto(Double.parseDouble(datos[0]));
+                    prestamo.setPlazoMeses(Integer.parseInt(datos[1]));
+                    prestamo.setEstado(datos[2]);
+
+                    // Cargar PlanPagos desde el archivo (simulado aquí)
+                    List<PlanPago> planPagos = cargarPlanPagos(prestamo);
+                    prestamo.setPlanPagos(planPagos);
+
+                    // Calcular pagos realizados y saldo restante
+                    int pagosRealizados = (int) planPagos.stream().filter(pago -> pago.getMonto() > 0).count();
+                    double saldoRestante = prestamo.getMonto()
+                            - planPagos.stream().mapToDouble(PlanPago::getMonto).sum();
+
+                    PrestamoEstadoDto estadoDto = new PrestamoEstadoDto(
+                            prestamo.getMonto(),
+                            prestamo.getPlazoMeses(),
+                            pagosRealizados,
+                            saldoRestante,
+                            prestamo.getEstado());
+
+                    prestamosEstado.add(estadoDto);
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return prestamosEstado;
+    }
+
+    // Método simulado para cargar PlanPagos
+    private List<PlanPago> cargarPlanPagos(Prestamo prestamo) {
+        // Aquí deberías cargar los PlanPagos del archivo u otra fuente de datos
+        // Simulación de datos por ahora
+        List<PlanPago> planPagos = new ArrayList<>();
+        for (int i = 1; i <= prestamo.getPlazoMeses(); i++) {
+            planPagos.add(new PlanPago(i, prestamo.getMonto() / prestamo.getPlazoMeses())); // Divide el monto total por
+                                                                                            // el número de cuotas
+        }
+        return planPagos;
     }
 
     public List<Prestamo> obtenerPrestamoPorCbu(long cbu) {
@@ -118,4 +173,5 @@ public class PrestamoDao {
 
         return prestamo;
     }
+
 }
