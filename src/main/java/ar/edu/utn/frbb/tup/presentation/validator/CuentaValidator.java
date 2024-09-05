@@ -8,18 +8,18 @@ public class CuentaValidator {
 
     public void validarCuenta(CuentaDto cuentadto) {
 
-        validarDNI(String.valueOf(cuentadto.getDniTitular()));
+        validarDNI(cuentadto.getDniTitular());
 
-        if ((cuentadto.getDniTitular()) == 0) {
+        if (Long.parseLong(cuentadto.getDniTitular()) == 0) {
             throw new IllegalArgumentException("El dni del titular de la cuenta es obligatorio");
         }
 
-        if ((cuentadto.getDniTitular()) < 0) {
+        if (Integer.parseInt(cuentadto.getDniTitular()) < 0) {
             throw new IllegalArgumentException("El dni del titular de la cuenta no puede ser negativo");
         }
 
-        if (cuentadto.getDniTitular() < 10000000
-                || (cuentadto.getDniTitular()) > 99999999) {
+        if (Long.parseLong(cuentadto.getDniTitular().toString()) < 10000000
+                || Long.parseLong(cuentadto.getDniTitular().toString()) > 99999999) {
             throw new IllegalArgumentException("El dni del titular de la cuenta debe ser de 8 digitos");
         }
 

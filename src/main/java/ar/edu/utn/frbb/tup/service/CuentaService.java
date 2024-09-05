@@ -44,7 +44,7 @@ public class CuentaService {
             throw new CuentaNoEncontradaException("No se encontro la cuenta con cbu: " + cbu);
         }
         movimientoDao.borrarMovimiento(cuenta.getDniTitular());
-        // transferenciaDao.borrarTransferencia(cuenta.getDniTitular());
+
         return cuenta;
     }
 

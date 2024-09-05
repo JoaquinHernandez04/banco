@@ -6,7 +6,7 @@ import ar.edu.utn.frbb.tup.model.Cuenta;
 
 public class CuentaDto {
     private String nombre;
-    private long dniTitular;
+    private String dniTitular;
     private String tipoCuenta;
     private String moneda;
     private long cbu;
@@ -16,15 +16,7 @@ public class CuentaDto {
     public CuentaDto() {
     }
 
-    public CuentaDto(Cuenta cuenta) {
-        this.cbu = cuenta.getCBU();
-        this.nombre = cuenta.getNombre();
-        this.tipoCuenta = cuenta.getTipoCuenta().toString();
-        this.balance = cuenta.getBalance();
-        this.moneda = cuenta.getMoneda().toString();
-        this.fechaCreacion = cuenta.getFechaCreacion().toString();
-        this.dniTitular = cuenta.getDniTitular();
-    }
+
 
     // Getters y setters actualizados
     public String getNombre() {
@@ -35,11 +27,11 @@ public class CuentaDto {
         this.nombre = nombre;
     }
 
-    public long getDniTitular() {
+    public String getDniTitular() {
         return dniTitular;
     }
 
-    public void setDniTitular(long dniTitular) {
+    public void setDniTitular(String dniTitular) {
         this.dniTitular = dniTitular;
     }
 

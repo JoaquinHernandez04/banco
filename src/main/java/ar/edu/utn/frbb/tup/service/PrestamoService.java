@@ -117,15 +117,5 @@ public class PrestamoService {
     }
 
     // Método auxiliar para convertir de Cuenta a CuentaDto
-    private CuentaDto convertirCuentaADto(Cuenta cuenta) {
-        CuentaDto cuentaDto = new CuentaDto();
-        cuentaDto.setCbu(cuenta.getCBU());
-        cuentaDto.setNombre(cuenta.getNombre());
-        cuentaDto.setTipoCuenta(cuenta.getTipoCuenta().toString());
-        cuentaDto.setBalance(cuenta.getBalance());
-        cuentaDto.setMoneda(cuenta.getMoneda().toString());
-        cuentaDto.setFechaCreacion(cuenta.getFechaCreacion().toString());
-        cuentaDto.setDniTitular(cuenta.getDniTitular());
-        return cuentaDto;
-    }
+
 }

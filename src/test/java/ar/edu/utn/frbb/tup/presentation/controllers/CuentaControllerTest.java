@@ -147,7 +147,7 @@ public class CuentaControllerTest {
     public CuentaDto getCuentaDto() {
         CuentaDto cuentadto = new CuentaDto();
         cuentadto.setNombre("Uriel");
-        cuentadto.setDniTitular(12345678);
+        cuentadto.setDniTitular("12345678");
         cuentadto.setTipoCuenta("AHORRO");
         cuentadto.setMoneda("ARS");
         return cuentadto;
