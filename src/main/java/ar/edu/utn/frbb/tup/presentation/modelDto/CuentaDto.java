@@ -1,7 +1,7 @@
 package ar.edu.utn.frbb.tup.presentation.modelDto;
 
 
-import ar.edu.utn.frbb.tup.model.Cuenta;
+
 
 
 public class CuentaDto {

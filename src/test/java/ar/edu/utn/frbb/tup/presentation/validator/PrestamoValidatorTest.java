@@ -81,4 +81,17 @@ public class PrestamoValidatorTest {
         assertThrows(IllegalArgumentException.class, () -> prestamoValidator.validarPrestamo(prestamoDto));
     }
 
+    @Test
+    public void testPrestamoValidatorEstadoNull() {
+        PrestamoDto prestamoDto = new PrestamoDto();
+        Prestamo prestamo = new Prestamo();
+        prestamoDto.setNumeroCliente(12345678);
+        prestamoDto.setMontoPrestamo(10000.0);
+        prestamoDto.setPlazoEnMeses(12);
+        prestamoDto.setMoneda(null);
+        prestamo.setEstado(null);
+
+        assertThrows(IllegalArgumentException.class, () -> prestamoValidator.validarPrestamo(prestamoDto));
+    }
+
 }

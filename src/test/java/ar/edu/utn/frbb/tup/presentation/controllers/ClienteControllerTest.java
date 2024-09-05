@@ -190,9 +190,9 @@ public class ClienteControllerTest {
     public Cliente getCliente() {
         Cliente cliente = new Cliente();
         cliente.setDni(12345678);
-        cliente.setNombre("Juan");
-        cliente.setApellido("Perez");
-        cliente.setDireccion("Calle Falsa 123");
+        cliente.setNombre("Joaquin");
+        cliente.setApellido("Hernandez");
+        cliente.setDireccion("Necochea 385");
         cliente.setBanco("Banco Nacion");
         cliente.setFechaNacimiento(LocalDate.of(2001, 1, 1));
         cliente.setTipoPersona(TipoPersona.PERSONA_FISICA);
@@ -202,9 +202,9 @@ public class ClienteControllerTest {
     public ClienteDto getClienteDto() {
         ClienteDto clientedto = new ClienteDto();
         clientedto.setDni("12345678");
-        clientedto.setNombre("Juan");
-        clientedto.setApellido("Perez");
-        clientedto.setDireccion("Calle Falsa 123");
+        clientedto.setNombre("Joaquin");
+        clientedto.setApellido("Hernandez");
+        clientedto.setDireccion("Necochea 385");
         clientedto.setBanco("Banco Nacion");
         clientedto.setFechaNacimiento("2001-01-01");
         clientedto.setTipoPersona("PERSONA_FISICA");

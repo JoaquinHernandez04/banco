@@ -12,7 +12,7 @@ import ar.edu.utn.frbb.tup.presentation.modelDto.ClienteDto;
 import ar.edu.utn.frbb.tup.persistence.ClienteDao;
 import ar.edu.utn.frbb.tup.persistence.CuentaDao;
 import ar.edu.utn.frbb.tup.persistence.MovimientosDao;
-import ar.edu.utn.frbb.tup.persistence.PrestamoDao;
+
 
 import java.util.List;
 

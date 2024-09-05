@@ -9,7 +9,6 @@ import org.springframework.stereotype.Service;
 import ar.edu.utn.frbb.tup.persistence.ClienteDao;
 import ar.edu.utn.frbb.tup.persistence.CuentaDao;
 import ar.edu.utn.frbb.tup.persistence.MovimientosDao;
-import ar.edu.utn.frbb.tup.persistence.PrestamoDao;
 import ar.edu.utn.frbb.tup.presentation.modelDto.CuentaDto;
 
 import java.util.List;
@@ -26,7 +25,7 @@ public class CuentaService {
     @Autowired
     private MovimientosDao movimientoDao;
     @Autowired
-    private PrestamoDao prestamoDao;
+
 
     public Cuenta darDeAltaCuenta(CuentaDto cuentaDto) throws ClienteNoEncontradoException {
         Cuenta cuenta = new Cuenta(cuentaDto);
