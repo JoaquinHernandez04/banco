@@ -8,10 +8,10 @@ public class Prestamo {
     private int plazoMeses;
     private List<PlanPago> planPagos;
     private String estado;
-    private Cliente cliente; // Atributo Cliente
+    private Cliente cliente;
 
     public Prestamo() {
-        // Constructor por defecto
+
     }
 
     public Prestamo(double monto, int plazoMeses, List<PlanPago> planPagos, String estado, Cliente cliente) {
@@ -22,7 +22,7 @@ public class Prestamo {
         this.cliente = cliente;
     }
 
-    // Getters y Setters para cada atributo
+
     public double getMonto() {
         return monto;
     }

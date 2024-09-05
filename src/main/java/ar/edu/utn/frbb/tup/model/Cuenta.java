@@ -15,7 +15,7 @@ public class Cuenta {
     private TipoMoneda moneda;
 
     public Cuenta() {
-        // Constructor vacío
+
     }
 
     public Cuenta(CuentaDto cuentaDto) {
@@ -28,7 +28,7 @@ public class Cuenta {
         this.fechaCreacion = LocalDateTime.now();
     }
 
-    // Getters y setters
+
 
     public long getDniTitular() {
         return dniTitular;

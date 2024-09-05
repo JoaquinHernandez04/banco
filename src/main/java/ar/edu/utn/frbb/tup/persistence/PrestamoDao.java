@@ -54,7 +54,7 @@ public class PrestamoDao {
             lector.readLine(); // Omitir la línea de encabezado
             while ((linea = lector.readLine()) != null) {
                 String[] datos = linea.split(",");
-                if (Long.parseLong(datos[3]) == numeroCliente) { // Suponiendo que el clienteId está en el índice 3
+                if (Long.parseLong(datos[3]) == numeroCliente) {
 
                     // Crear objeto Prestamo a partir de los datos
                     Prestamo prestamo = new Prestamo();
@@ -90,12 +90,9 @@ public class PrestamoDao {
 
     // Método simulado para cargar PlanPagos
     private List<PlanPago> cargarPlanPagos(Prestamo prestamo) {
-        // Aquí deberías cargar los PlanPagos del archivo u otra fuente de datos
-        // Simulación de datos por ahora
         List<PlanPago> planPagos = new ArrayList<>();
         for (int i = 1; i <= prestamo.getPlazoMeses(); i++) {
-            planPagos.add(new PlanPago(i, prestamo.getMonto() / prestamo.getPlazoMeses())); // Divide el monto total por
-                                                                                            // el número de cuotas
+            planPagos.add(new PlanPago(i, prestamo.getMonto() / prestamo.getPlazoMeses()));
         }
         return planPagos;
     }
