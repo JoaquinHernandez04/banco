@@ -158,7 +158,6 @@ public class MovimientoServiceTest {
     public Movimiento getMovimiento() {
         Movimiento movimiento = new Movimiento();
         movimiento.setCBU(12345678);
-        movimiento.setFechaOperacion(LocalDate.now());
         movimiento.setTipoOperacion(TipoOperacion.DEPOSITO);
         movimiento.setMonto(10);
         return movimiento;

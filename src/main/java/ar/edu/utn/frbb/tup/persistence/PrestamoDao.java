@@ -157,14 +157,14 @@ public class PrestamoDao {
         cliente.setId(Long.parseLong(datos[3]));
         prestamo.setCliente(cliente);
 
-        // Cambiar cómo se parsea el plan de pagos
+
         String[] pagos = datos[4].split(";"); // Divide el plan de pagos por el punto y coma
         List<PlanPago> planPagos = new ArrayList<>();
         for (String pago : pagos) {
-            String[] detallesPago = pago.split(":"); // Divide cada cuota por el colon
+            String[] detallesPago = pago.split(":");
             int cuotaNro = Integer.parseInt(detallesPago[0]);
             double monto = Double.parseDouble(detallesPago[1]);
-            planPagos.add(new PlanPago(cuotaNro, monto)); // Agrega un nuevo PlanPago a la lista
+            planPagos.add(new PlanPago(cuotaNro, monto));
         }
         prestamo.setPlanPagos(planPagos);
 

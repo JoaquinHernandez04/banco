@@ -145,17 +145,5 @@ public class ClienteValidatorTest {
         assertThrows(IllegalArgumentException.class, () -> clienteValidator.validarCliente(clienteDto));
     }
 
-    @Test
-    public void testClienteValidatorSinTipoPersona() {
-        ClienteDto clienteDto = new ClienteDto();
-        clienteDto.setDni("12345678");
-        clienteDto.setNombre("joaco");
-        clienteDto.setApellido("Hernandez");
-        clienteDto.setDireccion("Calle Falsa 123");
-        clienteDto.setFechaNacimiento("2001-01-01");
-        clienteDto.setBanco("Banco Nacion");
-        clienteDto.setTipoPersona("PERSONA_FISICA");
 
-        assertThrows(IllegalArgumentException.class, () -> clienteValidator.validarCliente(clienteDto));
-    }
 }

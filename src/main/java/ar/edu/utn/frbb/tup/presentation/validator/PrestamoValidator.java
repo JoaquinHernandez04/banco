@@ -1,13 +1,14 @@
 package ar.edu.utn.frbb.tup.presentation.validator;
 
+
 import org.springframework.stereotype.Component;
 import ar.edu.utn.frbb.tup.presentation.modelDto.PrestamoDto;
 
 @Component
 public class PrestamoValidator {
 
-    public void validarPrestamo(PrestamoDto prestamoDto) {
 
+    public void validarPrestamo(PrestamoDto prestamoDto) {
         validarDNI(prestamoDto.getNumeroCliente());
 
 
@@ -24,6 +25,7 @@ public class PrestamoValidator {
         if (prestamoDto.getMoneda() == null || prestamoDto.getMoneda().isEmpty()) {
             throw new IllegalArgumentException("La moneda del préstamo no puede estar vacía");
         }
+
 
     }
 

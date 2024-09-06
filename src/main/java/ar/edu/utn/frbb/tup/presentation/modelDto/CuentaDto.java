@@ -1,9 +1,5 @@
 package ar.edu.utn.frbb.tup.presentation.modelDto;
 
-
-
-
-
 public class CuentaDto {
     private String nombre;
     private String dniTitular;

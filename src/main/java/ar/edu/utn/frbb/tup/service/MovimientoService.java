@@ -74,7 +74,6 @@ public class MovimientoService {
 
         Movimiento movimiento = new Movimiento();
         movimiento.setCBU(cbu);
-        movimiento.setFechaOperacion(LocalDate.now());
         movimiento.setTipoOperacion(tipoOperacion);
         movimiento.setMonto(monto);
         return movimiento;

@@ -20,7 +20,7 @@ public class GlobalExceptionHandler {
         response.put("status", HttpStatus.BAD_REQUEST.value());
         response.put("error", "Bad Request");
         response.put("message", ex.getMessage());
-        response.put("path", "/api/prestamo"); // Ajusta esto según tu URL específica
+        response.put("path", "/api/prestamo");
 
         return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
     }

@@ -24,11 +24,12 @@ public class CuentaService {
 
     @Autowired
     private MovimientosDao movimientoDao;
-    @Autowired
+
 
 
     public Cuenta darDeAltaCuenta(CuentaDto cuentaDto) throws ClienteNoEncontradoException {
         Cuenta cuenta = new Cuenta(cuentaDto);
+
         Cliente clienteExistente = clienteDao.findByDni(cuenta.getDniTitular());
         if (clienteExistente == null) {
             throw new ClienteNoEncontradoException("El titular de la cuenta no existe");

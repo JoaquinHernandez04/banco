@@ -6,7 +6,7 @@ import ar.edu.utn.frbb.tup.model.TipoOperacion;
 import org.springframework.stereotype.Repository;
 
 import java.io.*;
-import java.time.LocalDate;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,12 +20,11 @@ public class MovimientosDao {
 
         try (BufferedWriter escritor = new BufferedWriter(new FileWriter(MOVIMIENTOSTXT, true))) {
             if (archivoNuevo) {
-                escritor.write("CBU,fechaOperacion,tipoOperacion,monto");
+                escritor.write("CBU,tipoOperacion,monto");
                 escritor.newLine();
             }
 
             escritor.write(movimiento.getCBU() + ",");
-            escritor.write(movimiento.getFechaOperacion().toString() + ",");
             escritor.write(movimiento.getTipoOperacion().name() + ",");
             escritor.write(Double.toString(movimiento.getMonto()));
             escritor.newLine();
@@ -64,13 +63,11 @@ public class MovimientosDao {
                 }
 
                 long cbu = Long.parseLong(datos[0]);
-                LocalDate fechaOperacion = LocalDate.parse(datos[1]);
-                TipoOperacion tipoOperacion = TipoOperacion.valueOf(datos[2]);
-                double monto = Double.parseDouble(datos[3]);
+                TipoOperacion tipoOperacion = TipoOperacion.valueOf(datos[1]);
+                double monto = Double.parseDouble(datos[2]);
 
                 Movimiento movimiento = new Movimiento();
                 movimiento.setCBU(cbu);
-                movimiento.setFechaOperacion(fechaOperacion);
                 movimiento.setTipoOperacion(tipoOperacion);
                 movimiento.setMonto(monto);
 

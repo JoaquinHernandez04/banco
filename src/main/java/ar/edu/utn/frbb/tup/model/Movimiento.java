@@ -5,7 +5,7 @@ import java.time.LocalDate;
 
 public class Movimiento {
     private Long CBU;
-    private LocalDate fechaOperacion;
+
     private TipoOperacion tipoOperacion;
     private double monto;
 
@@ -17,13 +17,7 @@ public class Movimiento {
         this.CBU = CBU;
     }
 
-    public LocalDate getFechaOperacion() {
-        return fechaOperacion;
-    }
 
-    public void setFechaOperacion(LocalDate fechaOperacion) {
-        this.fechaOperacion = fechaOperacion;
-    }
 
     public TipoOperacion getTipoOperacion() {
         return tipoOperacion;

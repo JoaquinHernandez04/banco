@@ -15,7 +15,9 @@ public class PrestamoEstadoDto {
         this.estado = estado;
     }
 
-    // Getters y Setters
+    public PrestamoEstadoDto() {
+    }
+
     public double getMonto() {
         return monto;
     }

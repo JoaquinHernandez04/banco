@@ -112,6 +112,6 @@ public class PrestamoService {
         return prestamos;
     }
 
-    // Método auxiliar para convertir de Cuenta a CuentaDto
+
 
 }
