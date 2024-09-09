@@ -35,7 +35,7 @@ public class PrestamoService {
         return Integer.parseInt(dni.substring(dni.length() - 1)) % 2 == 0;
     }
 
-    // revisar aca el error
+
     public List<Prestamo> verEstadoPrestamosPorCbu(long cbu) {
         return prestamoDao.obtenerPrestamoPorCbu(cbu);
     }

@@ -51,7 +51,7 @@ public class PrestamoDao {
 
         try (BufferedReader lector = new BufferedReader(new FileReader(PRESTAMOSTXT))) {
             String linea;
-            lector.readLine(); // Omitir la línea de encabezado
+            lector.readLine();
             while ((linea = lector.readLine()) != null) {
                 String[] datos = linea.split(",");
                 if (Long.parseLong(datos[3]) == numeroCliente) {
@@ -62,7 +62,7 @@ public class PrestamoDao {
                     prestamo.setPlazoMeses(Integer.parseInt(datos[1]));
                     prestamo.setEstado(datos[2]);
 
-                    // Cargar PlanPagos desde el archivo (simulado aquí)
+                    // Cargar PlanPagos desde el archivo
                     List<PlanPago> planPagos = cargarPlanPagos(prestamo);
                     prestamo.setPlanPagos(planPagos);
 
@@ -122,10 +122,10 @@ public class PrestamoDao {
 
         try (BufferedReader lector = new BufferedReader(new FileReader(PRESTAMOSTXT))) {
             String linea = lector.readLine();
-            prestamoStr.add(linea); // Agrega la línea de encabezado
+            prestamoStr.add(linea);
             while ((linea = lector.readLine()) != null) {
                 String[] campos = linea.split(",");
-                if (Long.parseLong(campos[3]) != CBU) { // Comparación corregida a campos[3]
+                if (Long.parseLong(campos[3]) != CBU) {
                     prestamoStr.add(linea);
                 }
             }
@@ -153,7 +153,7 @@ public class PrestamoDao {
         prestamo.setPlazoMeses(Integer.parseInt(datos[1]));
         prestamo.setEstado(datos[2]);
 
-        Cliente cliente = new Cliente(); // Placeholder, obtener cliente real del servicio
+        Cliente cliente = new Cliente();
         cliente.setId(Long.parseLong(datos[3]));
         prestamo.setCliente(cliente);
 

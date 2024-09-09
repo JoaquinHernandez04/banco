@@ -146,7 +146,7 @@ public class CuentaControllerTest {
 
     public CuentaDto getCuentaDto() {
         CuentaDto cuentadto = new CuentaDto();
-        cuentadto.setNombre("Uriel");
+        cuentadto.setNombre("joaco");
         cuentadto.setDniTitular("12345678");
         cuentadto.setTipoCuenta("AHORRO");
         cuentadto.setMoneda("ARS");
@@ -156,7 +156,7 @@ public class CuentaControllerTest {
     public Cuenta getCuenta() {
         Cuenta cuenta = new Cuenta();
         cuenta.setDniTitular(12345678);
-        cuenta.setNombre("Uriel");
+        cuenta.setNombre("joaco");
         cuenta.setBalance(1000.0);
         cuenta.setTipoCuenta(TipoCuenta.AHORRO);
         cuenta.setMoneda(TipoMoneda.USD);

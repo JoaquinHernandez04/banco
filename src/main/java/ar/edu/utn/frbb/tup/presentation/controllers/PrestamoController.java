@@ -49,13 +49,8 @@ public class PrestamoController {
     @GetMapping("/prestamo/{numeroCliente}")
     public ResponseEntity<ClientePrestamosDto> consultarEstadoPrestamos(@PathVariable long numeroCliente)
             throws ClienteNoEncontradoException {
-        // Llamada al servicio para obtener el estado de los préstamos
         List<PrestamoEstadoDto> prestamos = prestamoService.consultarEstadoPrestamos(numeroCliente);
-
-        // Crear el DTO de respuesta
         ClientePrestamosDto responseDto = new ClientePrestamosDto(numeroCliente, prestamos);
-
-        // Devolver el DTO de respuesta en la respuesta
         return ResponseEntity.ok(responseDto);
     }
 
